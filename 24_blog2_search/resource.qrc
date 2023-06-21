@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/24_blog_logo.png</file>
+        <file>fonts/fontawesome-webfont.ttf</file>
+    </qresource>
+</RCC>
