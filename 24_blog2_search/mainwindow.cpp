@@ -145,6 +145,11 @@ MainWindow::MainWindow(QWidget *parent)
         }
         emit keywordSearchSignal(text);
     });
+    connect(ui->ok_input_buton, &QPushButton::clicked, [ = ]()
+    {
+        QString text = ui->search_input->text();
+        search_pojo->key_word = text.trimmed();
+    });
     // 创建等待界面窗口
     progressDialog = new QProgressDialog(this);
     progressDialog->setMinimumWidth(300);
@@ -172,6 +177,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::refreshUISlot()
 {
+    ui->search_input->setText(search_pojo->key_word);
     search_pojo->page = "1";
     ui->page->setText(search_pojo->page + "/" + search_pojo->pageSize);
     ui->sum->setText("共" + search_pojo->docSize + "条");
@@ -211,6 +217,7 @@ void MainWindow::refreshUISlot()
 
 void MainWindow::pageBtSearchRefreshUISlot(QString bt, int index)
 {
+    ui->search_input->setText(search_pojo->key_word);
     ui->page->setText(search_pojo->page + "/" + search_pojo->pageSize);
     ui->sum->setText("共" + search_pojo->docSize + "条");
     progressDialog->setValue(51);//设置进度条
@@ -386,6 +393,7 @@ void MainWindow::classifySearchSlot(QString classify)
     {
         //进行相关查询后更新数据，然后发送信号更新ui
         delete searchRes;
+        qDebug() << "keyword: " << search_pojo->key_word;
         searchRes = blogDB->searchBlog(search_pojo);
         emit refreshUISignal();
     });
