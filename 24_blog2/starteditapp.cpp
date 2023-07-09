@@ -11,6 +11,7 @@
 #include <QThread>
 #include <QMetaType>
 #include "config.h"
+#include "mainwindow.h"
 //窗口位置改变回调函数
 void CALLBACK WinEventProcPos(HWINEVENTHOOK hHook, DWORD event, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime);
 void CALLBACK WinEventProcDragWinExit(HWINEVENTHOOK hHook, DWORD event, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime);
@@ -46,6 +47,7 @@ StartEditApp::StartEditApp(QWidget &w, QApplication &q_app, QObject *parent)
 //    this->thread = new QThread(qt_w);
 //    qRegisterMetaType<QProcess::ExitStatus> ("QProcess::ExitStatus");
     connect(process, SIGNAL(finished(int)), this, SLOT(waitProcessFinish(int)));
+    connect(this, SIGNAL(modifySaveButtonText(QString)), qt_w, SLOT(modifySaveButtonTextSlot(QString)));
     main_hwnd = getFirstVisibleWindowHandle();
     SetWindowPos(main_hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
@@ -72,6 +74,8 @@ int StartEditApp::start()
     {
         QString id = arguments.at(arguments.size() - 1);
         main_mdpojo = blogDB->getMDToDB(id);
+        //main_mdpojo 不为空此时点击保存按钮只能更新数据
+        emit this->modifySaveButtonText("更新");
         arguments.removeLast();
     }
     qDebug() << "args: " << arguments;

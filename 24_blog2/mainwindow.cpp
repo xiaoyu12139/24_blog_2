@@ -126,6 +126,11 @@ MainWindow::~MainWindow()
     qDebug() << "main window destroy";
 }
 
+void MainWindow::modifySaveButtonTextSlot(QString)
+{
+    ui->save->setText("更新");
+}
+
 /**
  * @brief MainWindow::saveSlot
  * @param select_classify
@@ -211,8 +216,12 @@ void MainWindow::saveSlot(QString select_classify, QList<QString> *classify_list
         if(!blogDB->uploadMDToDB(newPath, select_classify))
         {
             showMSG("更新失败，可能图片链接下载失败、图片文件不存在、当前文件资源被占用");
-            return;
         }
+        else
+        {
+            showMSG("文件更新成功");
+        }
+        return;
     }
 
     bool flag = false;
@@ -230,7 +239,12 @@ void MainWindow::saveSlot(QString select_classify, QList<QString> *classify_list
             // 将文件上传到数据库
             if(!blogDB->uploadMDToDB(filePath, select_classify))
             {
-                showMSG(filePath + "上传失败，可能文件名已存在、图片链接下载失败、图片文件不存在、当前文件资源被占用");
+                QString msg = filePath + "上传失败，可能文件名已存在、图片链接下载失败、图片文件不存在、当前文件资源被占用";
+                if(update_data)
+                {
+                    msg = "当前文件更新成功，但" + msg;
+                }
+                showMSG(msg);
                 return;
             }
             upSuccess->append(filePath);

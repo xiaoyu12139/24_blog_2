@@ -26,6 +26,8 @@ public:
 //    LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam);
 public slots:
     void waitProcessFinish(int exitCode);
+signals:
+    void modifySaveButtonText(QString);
 };
 
 QWindow *getWindowFromProcessId(qint64 processId);

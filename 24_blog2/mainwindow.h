@@ -25,6 +25,7 @@ public:
 
 public slots:
     void saveClicked();
+    void modifySaveButtonTextSlot(QString);
     void deleteClicked();
     void searchClicked();
     void otherClicked();
