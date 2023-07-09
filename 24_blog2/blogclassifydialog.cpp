@@ -38,6 +38,12 @@ BlogClassifyDialog::BlogClassifyDialog(QWidget *parent) :
     connect(ui->sure_input, &QPushButton::clicked, [ = ]()
     {
         QString name = ui->lineEdit->text();
+        name = name.trimmed();
+        if(name == "")
+        {
+            ui->lineEdit->setText("新建分类");
+            return;
+        }
         //判断当前列表中是否存在
         bool flag = true;
         int itemCount = ui->listWidget->count();

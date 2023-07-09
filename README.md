@@ -40,3 +40,7 @@ SEARCH_PAGE_SIZE=10
 
 
 blog_search 可能会闪退，原因可能是markdown文件中的图片格式问题，建议换成常见的格式如png等
+
+目前对于markdown文件的保存图片功能只支持`![]()`的基本使用，如缩放等都不支持
+
+删除分类时，并不会删除相关的markdown文章

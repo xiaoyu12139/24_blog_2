@@ -100,7 +100,7 @@ void BlogDatabase::createMDTable()
 {
     QSqlQuery query(db);
     query.exec("CREATE TABLE IF NOT EXISTS " + md_table + " ("
-               "id TEXT PRIMARY KEY, "
+               "id TEXT PRIMARY KEY NOT NULL, "
                "classify TEXT, "
                "title TEXT, "
                "content TEXT, "
@@ -114,7 +114,7 @@ void BlogDatabase::createIMGTable()
 {
     QSqlQuery query(db);
     query.exec("CREATE TABLE IF NOT EXISTS " + img_table + " ("
-               "id TEXT PRIMARY KEY, "
+               "id TEXT PRIMARY KEY NOT NULL, "
                "type TEXT,"
                "content BLOB,"
                "mdid TEXT,"
@@ -126,7 +126,7 @@ void BlogDatabase::createCLASSIFYTable()
 {
     QSqlQuery query(db);
     query.exec("CREATE TABLE IF NOT EXISTS " + classify_table + " ("
-               "id TEXT PRIMARY KEY, "
+               "id TEXT PRIMARY KEY NOT NULL, "
                "name TEXT"
                ")");
 }
