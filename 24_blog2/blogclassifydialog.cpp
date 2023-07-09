@@ -110,6 +110,25 @@ BlogClassifyDialog::BlogClassifyDialog(QWidget *parent) :
     });
 }
 
+void BlogClassifyDialog::selectClassify(QString classify)
+{
+    int itemCount = ui->listWidget->count();
+    for (int i = 0; i < itemCount; i++)
+    {
+        QListWidgetItem *item = ui->listWidget->item(i);
+        if (item)
+        {
+            // 对每个项进行处理
+            QString itemText = item->text();
+            if(classify == itemText)
+            {
+                item->setSelected(true);
+                break;
+            }
+        }
+    }
+}
+
 void BlogClassifyDialog::refreshClassifyList()
 {
     ui->listWidget->clear();

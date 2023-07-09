@@ -19,6 +19,7 @@ public:
     void removeLayoutFromLayout(QLayout *layoutToRemove, QLayout *parentLayout, QList<QWidget *> *aa);
     void addRemoveLayout(QLayout *layoutToRemove, QLayout *parentLayout, QList<QWidget *> *widgetsToRemove);
     void closeEvent(QCloseEvent *event) override;
+    void selectClassify(QString classify);
 
 signals:
     void closeWindow();

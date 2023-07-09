@@ -285,6 +285,10 @@ void MainWindow::saveClicked()
     mainWindow->close();
 //    QMessageBox::information(this, "Title", "Message");
     blogClassifyDialog->refreshClassifyList();
+    if(mainWindow != nullptr)
+    {
+        blogClassifyDialog->selectClassify(main_mdpojo->classify);
+    }
     blogClassifyDialog->show();
     // 创建事件循环
     QEventLoop loop;
