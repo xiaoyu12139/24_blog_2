@@ -572,13 +572,6 @@ MDPojo *BlogDatabase::getMDToDB(QString id)
                   "imgtable.id AS imgid, imgtable.type, imgtable.content AS imgcontent "
                   "FROM mdtable LEFT JOIN imgtable ON mdtable.id = imgtable.mdid "
                   "WHERE mdtable.id = :id");
-//    QString sql = "SELECT * FROM mdtable WHERE mdtable.id = ?";
-//    query.prepare(sql);
-//    query.addBindValue(id);
-//    qDebug() << "query string: " << query.lastQuery();
-
-//    QString sql = "SELECT * FROM mdtable WHERE mdtable.id = :id";
-//    query.prepare(sql);
     query.bindValue(":id", id);
     qDebug() << "query string: " << query.lastQuery();
     qDebug() << id;
@@ -604,64 +597,10 @@ MDPojo *BlogDatabase::getMDToDB(QString id)
 //            qDebug() << mdview_count;
 //            qDebug() << mdedit_time;
             qDebug() << imgid;
-//            qDebug() << imgcontent;
-//            IMGPojo *imgpojo = new IMGPojo(imgid, imgtype, imgcontent, mdid);
-            // 保存图片到本地
-//            QString filePath = g_data_path + QDir::separator() + "forshow";
-//            if(!checkPath(filePath, filePath + "不存在", true))
-//            {
-//                return nullptr;
-//            }
-//            filePath = filePath + QDir::separator() + mdtitle;
-//            if(checkPath(filePath, filePath + "不存在", false))
-//            {
-//                removeFolder(filePath);
-//            }
-//            QDir dir;
-//            bool success = dir.mkpath(filePath);
-//            if (success)
-//            {
-//                qDebug() << "Path created successfully: " << filePath;
-//            }
-//            else
-//            {
-//                qDebug() << "Failed to create path: " << filePath;
-//            }
-//            QString dirPath = filePath;
-//            QString mdPath = dirPath + QDir::separator() + mdtitle;
-//            qDebug() << "show: " << mdPath;
-//            QString imgPath = filePath + QDir::separator() + imgid + "." + imgtype;
             if(mdpojo == nullptr)
             {
                 mdpojo = new MDPojo(mdid, mdclassify, mdtitle, mdcontent, mdview_count, mdedit_time);
-                //将mdpojo中的content保存到本地文件
-//                QFile file(mdPath);
-//                if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-//                {
-//                    QTextStream out(&file);
-//                    out.setCodec("UTF-8");
-//                    out << mdcontent;
-//                    file.close();
-//                    qDebug() << mdPath + "显示文件保存成功";
-//                }
-//                else
-//                {
-//                    qDebug() << mdPath + "显示文件保存失败";
-//                }
-            }
-            if(imgcontent != "")
-            {
-                // 从QByteArray中加载图片
-//                QImage image;
-//                image.loadFromData(imgcontent);
-//                if(image.save(imgPath))
-//                {
-//                    qDebug() << "Image: " + imgPath + " saved successfully";
-//                }
-//                else
-//                {
-//                    qDebug() << "Failed to save image: " + imgPath;
-//                }
+                break;
             }
         }
         qDebug() << "加载完成";
@@ -673,6 +612,19 @@ MDPojo *BlogDatabase::getMDToDB(QString id)
     }
     query.clear();
     query.finish();
+    QSqlQuery update_query;
+    update_query.prepare("UPDATE mdtable SET edit_time = :value1, view_count = :value2 WHERE id = :id");
+    update_query.bindValue(":value1", QDateTime::currentMSecsSinceEpoch());
+    update_query.bindValue(":value2", mdpojo->view_count.toInt() + 1);
+    update_query.bindValue(":id", mdpojo->id);
+    if (update_query.exec())
+    {
+        qDebug() << "update date success when open file.";
+    }
+    else
+    {
+        qDebug() << "update date failed when open file.";
+    }
     return mdpojo;
 }
 void BlogDatabase::getIMGToDB(QString id)

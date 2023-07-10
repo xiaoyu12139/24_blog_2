@@ -7,6 +7,7 @@
 #include "windows.h"
 #include <QDir>
 #include <QThread>
+#include <QProcess>
 #include "blogdatabase.h"
 extern HWND edit_hwnd;
 extern HWND main_hwnd;
@@ -326,7 +327,23 @@ void MainWindow::searchClicked()
 {
 //Zm9ydGVzdF91cF9tYXJrZG93bi5tZA==
     blogDB->transaction();
-    blogDB->getMDToDB("Zm9ydGVzdF91cF9tYXJrZG93bi5tZA==");
+//    blogDB->getMDToDB("Zm9ydGVzdF91cF9tYXJrZG93bi5tZA==");
+    QThread *work_thread2 = QThread::create([ = ]()
+    {
+        QProcess process;
+        QString programPath = QCoreApplication::applicationDirPath() + "/24_blog2_search.exe";
+        programPath = programPath.replace("/", QDir::separator());
+        qDebug() << programPath;
+        process.setProgram(programPath);
+        process.start();
+        if (!process.waitForStarted())
+        {
+            qDebug() << "Failed to start program: " << process.errorString();
+            return ;
+        }
+        process.waitForFinished(-1);
+    });
+    work_thread2->start();
     blogDB->commit();
 }
 

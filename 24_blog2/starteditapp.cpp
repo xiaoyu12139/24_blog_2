@@ -73,7 +73,9 @@ int StartEditApp::start()
     if(arguments.size() > 1)
     {
         QString id = arguments.at(arguments.size() - 1);
+        blogDB->transaction();
         main_mdpojo = blogDB->getMDToDB(id);
+        blogDB->commit();
         //main_mdpojo 不为空此时点击保存按钮只能更新数据，同时设置默认分类选中
         emit this->modifySaveButtonText("更新");
         arguments.removeLast();
