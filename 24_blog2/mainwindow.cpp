@@ -287,7 +287,7 @@ void MainWindow::saveClicked()
     mainWindow->close();
 //    QMessageBox::information(this, "Title", "Message");
     blogClassifyDialog->refreshClassifyList();
-    if(mainWindow != nullptr)
+    if(main_mdpojo != nullptr)
     {
         blogClassifyDialog->selectClassify(main_mdpojo->classify);
     }
