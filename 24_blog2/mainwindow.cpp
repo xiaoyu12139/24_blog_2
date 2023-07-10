@@ -222,6 +222,7 @@ void MainWindow::saveSlot(QString select_classify, QList<QString> *classify_list
         {
             showMSG("文件更新成功");
         }
+        blogDB->commit();
         return;
     }
 
