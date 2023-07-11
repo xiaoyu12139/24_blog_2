@@ -1,3 +1,7 @@
+开发环境:win10,qt-5.14.2
+
+开发工具：qt creator 4.11.1(community) 构建套件选择MSVC2017 64bit
+
 介绍
 
 ```
